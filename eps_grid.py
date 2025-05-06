@@ -491,6 +491,6 @@ if __name__ == "__main__":
 
 
     # Train agent
-    with multiprocessing.Pool(processes=4) as pool:
+    with multiprocessing.Pool(processes=config["AT-DQN"]["processes"]) as pool:
         pool.map(train_wrapper, all_args)
     

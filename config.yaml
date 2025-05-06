@@ -18,7 +18,7 @@ AT-DQN:
   epsilon_end: 0.01 #0.05
   epsilon_decay_steps: 50000
   run_name: "Cartpole_ATDQN"
-
+  processes: 4
 
 Vanilla-DQN:
   epsilon_start: 0.9
