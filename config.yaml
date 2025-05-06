@@ -1,0 +1,33 @@
+AT-DQN:
+  replay_buffer: 100000
+  # beta_start: 0.4
+  warmup: 5000
+  # beta_end: 1.0
+  # sma_window: 10
+  tau: 1.0
+  T: 200000
+  gamma: 0.99
+  lr: 0.00007
+  LRU: 250000
+  target_update: 1000
+  device: "cpu"
+  initial_attention: 1.0
+  # decay_untill: 120_000
+  # final_lr: 0.00001
+  epsilon_start: 1.0 #1.0
+  epsilon_end: 0.01 #0.05
+  epsilon_decay_steps: 50000
+  run_name: "Cartpole_ATDQN"
+
+
+Vanilla-DQN:
+  epsilon_start: 0.9
+  epsilon_end: 0.05
+  decay_steps: 80000
+  replay_buffer: 100000
+  warmup: 5000
+  gamma: 0.99
+  device: "mps"
+  target_update: 1000
+  lr: 0.00007
+  T: 230000
