@@ -478,7 +478,7 @@ def train_wrapper(args):
 
 if __name__ == "__main__":
     random.seed(42)
-    seeds = random.sample(range(1_000_000), 7)
+    seeds = random.sample(range(1_000_000), config["AT-DQN"]["seed_count"])
     env_name = "CartPole-v1"
     eps_start_list = [1, 0.9, 0.8, 0.7, 0.6]
     eps_end_list = [0.01, 0.05, 0.1, 0.2, 0.3]
