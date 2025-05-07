@@ -20,6 +20,10 @@ from itertools import product
 import multiprocessing
 from collections import deque
 
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
+
 # NOTES:
 # 1. Hypothesis: lr is affecting divergence of td-error.
 #    Test: change with various lr (both up & down)
@@ -448,7 +452,7 @@ def train_agent(env_name, seed, eps_start, eps_end, render=False):
     agent = Agent(state_shape, action_size, lr, eps_start, eps_end)
 
     
-    for step in tqdm(range(total_steps), desc="Training Progress"):
+    for step in range(total_steps):
         action, att = agent.act(state)
         next_frame, reward, terminated, truncated, _ = env.step(action)
         done = terminated or truncated
@@ -473,7 +477,7 @@ def train_agent(env_name, seed, eps_start, eps_end, render=False):
     subprocess.run(["python", "eval_100_grid.py", "--model_path", f"AT_DQN_Models/{eps_start}_{eps_end}_{seed}.pth", "--eps_start", str(eps_start), "--eps_end", str(eps_end), "--seed",str(seed)])
 
 def train_wrapper(args):
-    print(f"Training started in PID: {os.getpid()} with args: {args}")
+    print(f"Training started, PID: {os.getpid()} with args: {args}")
     return train_agent(*args)
 
 if __name__ == "__main__":
@@ -484,13 +488,17 @@ if __name__ == "__main__":
     eps_end_list = [0.01, 0.05, 0.1, 0.2, 0.3]
     grid = list(product(eps_start_list, eps_end_list))
     all_args=[]
+    batch_count=0
 
     for seed in seeds:
         for eps_start, eps_end in grid:
             all_args.append((env_name, seed, eps_start, eps_end))
 
 
-    # Train agent
+    # Train agent with tqdm progress bar
     with multiprocessing.Pool(processes=config["AT-DQN"]["processes"]) as pool:
-        pool.map(train_wrapper, all_args)
+        print(f'Training Batch {batch_count}')
+        batch_count += 1
+        for _ in tqdm(pool.imap_unordered(train_wrapper, all_args), total=len(all_args)):
+            pass
     

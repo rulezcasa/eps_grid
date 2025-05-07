@@ -47,7 +47,7 @@ model.eval()
 total_rewards = []
 
 # Running for 100 episodes with tqdm for progress tracking
-for episode in tqdm(range(100), desc="Running episodes"):
+for episode in range(100):
     state = env.reset()[0]  # for gymnasium; use `state = env.reset()` for older gym
     done = False
     total_reward = 0
