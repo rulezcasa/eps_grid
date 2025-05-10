@@ -14,8 +14,8 @@ AT-DQN:
   initial_attention: 1.0
   # decay_untill: 120_000
   # final_lr: 0.00001
-  epsilon_start: 1.0 #1.0
-  epsilon_end: 0.01 #0.05
+  epsilon_start: 0.8 #1.0
+  epsilon_end: 0.10 #0.05
   epsilon_decay_steps: 50000
   run_name: "Cartpole_ATDQN"
   processes: 6

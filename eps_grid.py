@@ -483,6 +483,8 @@ def train_wrapper(args):
 if __name__ == "__main__":
     random.seed(42)
     seeds = random.sample(range(1_000_000), config["AT-DQN"]["seed_count"])
+    additional_seeds = set(random.sample(range(1_000_000), 13)) - set(seeds)
+    print(additional_seeds)
     env_name = "CartPole-v1"
     eps_start_list = [1, 0.9, 0.8, 0.7, 0.6]
     eps_end_list = [0.01, 0.05, 0.1, 0.2, 0.3]
@@ -490,9 +492,13 @@ if __name__ == "__main__":
     all_args=[]
     batch_count=0
 
-    for seed in seeds:
-        for eps_start, eps_end in grid:
-            all_args.append((env_name, seed, eps_start, eps_end))
+    # for seed in additional_seeds:
+    #     for eps_start, eps_end in grid:
+    #         all_args.append((env_name, seed, eps_start, eps_end))
+
+    for seed in additional_seeds:
+        all_args.append((env_name, seed, 0.8, 0.10))
+        
 
 
     # Train agent with tqdm progress bar
@@ -501,4 +507,4 @@ if __name__ == "__main__":
         batch_count += 1
         for _ in tqdm(pool.imap_unordered(train_wrapper, all_args), total=len(all_args)):
             pass
-    
+
